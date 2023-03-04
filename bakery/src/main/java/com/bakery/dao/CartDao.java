@@ -4,6 +4,6 @@ import com.bakery.model.Cart;
 
 public interface CartDao {
 
-    public Cart get(long id);
+    public Cart getCustomerCart(long id);
 
 }
