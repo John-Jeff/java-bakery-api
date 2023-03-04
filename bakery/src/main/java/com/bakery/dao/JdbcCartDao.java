@@ -16,13 +16,17 @@ public class JdbcCartDao implements CartDao {
 
     private JdbcTemplate jdbcTemplate;
 
+    private ItemDao itemDao;
+
     public JdbcCartDao(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.itemDao = new JdbcItemDao(dataSource);
+
     }
 
     // Retrieve a customers cart based on their ID
     public Cart getCustomerCart(long id) {
-
+        //TODO: Add exception handlers
         Cart returnedCart = null;
 
         // Get cart from DB based on customer
@@ -34,19 +38,7 @@ public class JdbcCartDao implements CartDao {
             returnedCart = mapRowToCart(rowSet);
         }
 
-        sql = "SELECT i.id, i.name FROM item i " +
-                "JOIN cart_item ci " +
-                "ON i.id = ci.item_id " +
-                "WHERE ci.cart_id = ?";
-        rowSet = jdbcTemplate.queryForRowSet(sql, returnedCart.getCartId());
-
-        List<Item> returnedCartItems = new ArrayList<>();
-        while (rowSet.next()) {
-            Item returnedItem = new JdbcItemDao().mapRowToItem(rowSet);
-            returnedCartItems.add(returnedItem);
-        }
-
-        returnedCart.setItems(returnedCartItems);
+        returnedCart.setItems(itemDao.getCartItems(returnedCart.getCartId()));
         return returnedCart;
     }
 
