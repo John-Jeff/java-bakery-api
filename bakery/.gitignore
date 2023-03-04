@@ -33,6 +33,7 @@ build/
 .vscode/
 
 application.properties
+temprunner.txt
 
 *#
 *.jar
