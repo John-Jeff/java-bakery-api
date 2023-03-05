@@ -1,4 +1,7 @@
 package com.bakery.dao;
 
-public class JdbcCustomerDao {
+import org.springframework.stereotype.Component;
+
+@Component
+public class JdbcCustomerDao implements CustomerDao {
 }
