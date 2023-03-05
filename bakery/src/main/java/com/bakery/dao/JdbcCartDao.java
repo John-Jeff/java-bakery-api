@@ -11,6 +11,8 @@ import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO: Add exception handlers
+
 @Component
 public class JdbcCartDao implements CartDao {
 
@@ -25,12 +27,12 @@ public class JdbcCartDao implements CartDao {
     }
 
     // Retrieve a customers cart based on their ID
+    @Override
     public Cart getCustomerCart(long id) {
-        //TODO: Add exception handlers
         Cart returnedCart = null;
 
         // Get cart from DB based on customer
-        String sql = "SELECT id FROM cart WHERE customer_id = ?";
+        String sql = "SELECT id FROM cart WHERE customer_id = ?;";
         SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, id);
 
         // Get cart entry and map to Cart object
